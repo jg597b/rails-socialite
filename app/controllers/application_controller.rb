@@ -21,8 +21,4 @@ class ApplicationController < ActionController::Base
   def only_host_action
     redirect_to events_index_path unless session[:account_type] == 'host'
   end
-
-  def welcome
-
-  end
 end

@@ -8,18 +8,25 @@ class User < ApplicationRecord
   has_many :invitations
   has_many :eventlist
 
+  scope :pending_invitations, -> {
+    invitations.where(accepted: false)
+  }
+
   def get_invited_in(event)
     Invitation.create(attended_event: event, user: self)
   end
-  
+
   def evaluate_registration
     if registration_password != registration_password_repeat
       errors.add(:registration_password, "and confirmation password don't match")
     elsif registration_password.blank?
       errors.add(:registration_password, 'required')
     end
-    
+
     self.passwd = Digest::SHA256.hexdigest registration_password
+  end
+  def self.search(search)
+    where("first_name LIKE?", "%#{search}%")
   end
 
 end

@@ -13,7 +13,7 @@ class Host < ApplicationRecord
     elsif registration_password.blank?
       errors.add(:registration_password, 'required')
     end
-    
+
     self.passwd = Digest::SHA256.hexdigest registration_password
   end
 

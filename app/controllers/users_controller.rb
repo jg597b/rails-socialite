@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
   skip_before_action :authorize, :only => [:register, :login]
-  
+  helper_method :invite
+
   def register
     if request.post?
       @user = User.new(user_params)
@@ -51,6 +52,24 @@ class UsersController < ApplicationController
     else
       @user = @current_user
     end
+  end
+
+  def index
+    if params[:search].present?
+      search_query = params[:search].strip
+      @user = User.where("last_name like ? OR first_name like ? OR email_addr like ?",
+                         search_query, search_query, search_query).order("created_at DESC")
+    else
+      @user = User.all.order("created_at DESC")
+    end
+  end
+
+  def show
+
+  end
+
+  def add_user_to_event(user_id)
+    EventList.new(params[:event_id],user_id)
   end
 
   private

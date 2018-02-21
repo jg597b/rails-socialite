@@ -16,3 +16,20 @@
 # Ignore Byebug command history file.
 .byebug_history
 .idea
+
+
+# Imported from the Ruby gitignore
+# https://github.com/github/gitignore/blob/master/Ruby.gitignore
+
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+/bin/

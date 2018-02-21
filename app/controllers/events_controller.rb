@@ -28,25 +28,26 @@ class EventsController < ApplicationController
   end
 
   def index
+    @current_user = current_user
     @event_time = if params[:event_time].blank? || ['upcoming', 'past'].index(params[:event_time]).nil?
-      'upcoming'
-    else
-      params[:event_time]
-    end
+                    'upcoming'
+                  else
+                    params[:event_time]
+                  end
 
     @events = if @account_type == 'host'
-      if @event_time == 'upcoming'
-        Event.get_upcoming_events_by_host(@current_host.id)
-      else
-        Event.get_past_events_by_host(@current_host.id)
-      end
-    else
-      if @event_time == 'upcoming'
-        Event.get_upcoming_public_events
-      else
-        Event.get_past_public_events
-      end
-    end
+                if @event_time == 'upcoming'
+                  Event.get_upcoming_events_by_host(@current_host.id)
+                else
+                  Event.get_past_events_by_host(@current_host.id)
+                end
+              else
+                if @event_time == 'upcoming'
+                  Event.get_upcoming_public_events_and_user(current_user)
+                else
+                  Event.get_past_public_events
+                end
+              end
   end
 
   def add

@@ -29,4 +29,5 @@ Rails.application.routes.draw do
   get '/users/edit_profile' => 'users#edit_profile', as: :users_edit_profile
   post '/users/edit_profile' => 'users#edit_profile', as: :users_edit_profile_post
   get '/users/logout' => 'users#logout', as: :users_logout
+  get '/users/add_user_event/:event_id'=> 'users#index', as: :users_index
 end

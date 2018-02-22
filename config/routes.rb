@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :event_lists
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root to: 'events#index'
@@ -8,6 +9,10 @@ Rails.application.routes.draw do
   get '/events/add' => 'events#add', as: :events_add
   post '/events/add' => 'events#add', as: :events_add_post
   get '/events(/:event_time)' => 'events#index', as: :events_index
+  get '/events/:id/invitation_list' => 'events#invitation_list', as: :show_event
+  post '/events/:id/invite_user' => 'events#invite_user', as: :invite_event
+  get '/events/:id/to_csv' => 'events#to_csv', as: :csv_event
+
 
   get '/hosts/register' => 'hosts#register', as: :hosts_register
   post '/hosts/register' => 'hosts#register', as: :hosts_register_post

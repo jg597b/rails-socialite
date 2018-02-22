@@ -35,6 +35,18 @@
                     <% end %>
                 </div>
                 <div style="clear:both;"></div>
+              <% if event.event_type == "invite" &&  @event_time == 'upcoming' %>
+                  <div class="actions">
+                    <ul>
+                      <li><%= link_to "Invite" ,show_event_path(id: event.id), style: "width: 40px;"%></li>
+                    </ul>
+                  </div>
+              <%end%>
+              <div class="actions">
+                <ul>
+                  <li><%= link_to "Export RSVP List" ,csv_event_path(id: event.id, format: :csv), style: "width: 120px;"%></li>
+                </ul>
+              </div>
             </div>
         <% end %>
     <% else %>

@@ -1,6 +1,31 @@
 class EventsController < ApplicationController
 
-  before_action :only_host_action, :only => [:add]
+  before_action :only_host_action, :only => [:add, :invitation_list, :invite_user]
+
+  def invitation_list
+    @event = Event.find(params[:id])
+    if params[:search].present?
+      search_query = params[:search].strip
+      @uninvited_users = @event.users_not_invited.where("last_name like ? OR first_name like ? OR email_addr like ?",
+                                                        search_query, search_query, search_query).order("created_at DESC")
+    else
+      @uninvited_users = @event.users_not_invited
+    end
+    @pending_users = @event.pending_users_list
+    @attendees = @event.attendees
+  end
+
+  def invite_user
+    User.where(id: params[:user_id]).each{|user| user.get_invited_in(Event.find(params[:id]))}
+    redirect_to show_event_path(params[:id])
+  end
+
+  def to_csv
+    respond_to do |format|
+      format.html
+      format.csv { send_data Event.to_csv_user_info(Event.find(params[:id]), Event.find(params[:id]).invited_users), filename: "event-user-list-#{Date.today}.csv"  }
+    end
+  end
 
   def index
     @event_time = if params[:event_time].blank? || ['upcoming', 'past'].index(params[:event_time]).nil?

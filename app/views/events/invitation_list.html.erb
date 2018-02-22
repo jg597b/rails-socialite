@@ -1,0 +1,89 @@
+<h1 style="margin-left: 300px;">Uninvited Users</h1>
+
+<div class="users form" style="margin-bottom: 60px;">
+  <%= form_tag(show_event_path(id: @event.id), method: 'get') do %>
+      <%= text_field_tag(:search, params[:search]) %>
+      <%= submit_tag("Search", first_name: nil) %>
+  <% end %>
+
+  <table>
+    <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Email</th>
+      <th>Add to Invite list?</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <%= form_tag(invite_event_path(id: @event.id), method: 'post') do %>
+
+        <% if @uninvited_users.present? %>
+            <% @uninvited_users.each do |user| %>
+                <tr>
+                  <td><%= user.first_name %></td>
+                  <td><%= user.last_name %></td>
+                  <td><%= user.email_addr %></td>
+                  <td class="actions" width="60">
+                    <%= check_box_tag "user_id[]", user.id %>
+                  </td>
+                </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+        </table>
+        <%= submit_tag("Add") %>
+    <% end %>
+
+    </div>
+
+<h1 style="margin-left: 300px; margin-top: 110px;">Pending Invitations</h1>
+
+<div class="users form">
+  <table>
+    <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @pending_users.present? %>
+        <% @pending_users.each do |user| %>
+            <tr>
+              <td><%= user.first_name %></td>
+              <td><%= user.last_name %></td>
+              <td><%= user.email_addr %></td>
+            </tr>
+        <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<h1 style="margin-left: 300px; margin-top: 150px;">Accepted Invitations</h1>
+
+<div class="users form">
+  <table>
+    <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @attendees.present? %>
+        <% @attendees.each do |user| %>
+            <tr>
+              <td><%= user.first_name %></td>
+              <td><%= user.last_name %></td>
+              <td><%= user.email_addr %></td>
+            </tr>
+        <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>

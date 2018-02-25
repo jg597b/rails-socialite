@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :invitations, only: [:edit, :update]
 
   get '/welcome' => 'application#welcome', as: :application_welcome
+  get 'agendas/index'
 
   get '/events/add' => 'events#add', as: :events_add
   post '/events/add' => 'events#add', as: :events_add_post

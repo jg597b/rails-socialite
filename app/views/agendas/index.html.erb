@@ -1,0 +1,23 @@
+<div class="events index">
+  <h2>Agendas</h2>
+
+  <% if @agendas.any? %>
+    <% @agendas.each do |event| %>
+        <h3><%= event.event_name %></h3>
+        <div class="event_listing">
+            <div class="event_listing_left">
+                <%= image_tag "default_event.jpg", width: "90" %>
+            </div>
+            <div class="event_listing_right">
+                <p><span class="small_title">Event Start Date: </span><%= event.rsvp_start.strftime("%b %d, %Y") %></p>
+                <p><span class="small_title">Event Name: </span><%= event.event_name %></p>
+                <p><span class="small_title">Event Location: </span><%=  "#{event.venue_addr1}, #{event.venue_city}, #{event.venue_state} #{event.venue_zip}" %></p>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+    <% end %>
+  <% else %>
+      <h3>You have no upcoming agendas</h3>
+  <% end %>
+</div>
+

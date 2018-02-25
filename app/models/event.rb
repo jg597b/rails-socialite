@@ -13,6 +13,10 @@ class Event < ApplicationRecord
     self.where(event_type: :public).where('`event_start` >= ?', Time.now)
   end
 
+  def self.get_upcoming_public_events_and_user(user)
+    self.get_upcoming_public_events +  Event.joins(invitations: :user).where("users.id = ?", user.id)
+  end
+
   def self.get_past_public_events
     self.where(event_type: :public).where('`event_start` < ?', Time.now)
   end
@@ -25,6 +29,14 @@ class Event < ApplicationRecord
     self.where(host_id: host_id).where('`event_start` < ?', Time.now)
   end
 
+  def self.get_events_by_user(user_id)
+    self.where(host_id: host_id).where('`event_start` < ?', Time.now)
+  end
+
+  def number_of_seats_left
+    capacity - invitations.where(accepted: true).sum(:guest_count)
+  end
+
   def invited_users_listing
     invited_users_list = []
     invitations.each do |invitation|
@@ -35,7 +47,6 @@ class Event < ApplicationRecord
 
   # uninvited users
   def users_not_invited
-    p"invited_users_listing--> #{invited_users_listing}"
     #if there is no users in the list, show all Users
     if invited_users_listing.empty?
       User.all

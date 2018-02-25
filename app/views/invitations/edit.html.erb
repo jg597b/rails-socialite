@@ -1,0 +1,9 @@
+<h1 style="margin-left: 300px;">Guest Count</h1>
+<div class="form">
+<%= form_for(@invitation) do |f| %>
+  <%= f.label :guest_count %>
+  <%= f.number_field :guest_count, in: 1..@invitation.attended_event.capacity %>
+
+  <%= f.submit "Accept" %>
+<% end %>
+</div>

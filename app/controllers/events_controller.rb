@@ -30,6 +30,7 @@ class EventsController < ApplicationController
 
 
   def index
+    @current_user = current_user
     @event_time = if params[:event_time].blank? || ['upcoming', 'past'].index(params[:event_time]).nil?
       'upcoming'
     else
@@ -44,7 +45,7 @@ class EventsController < ApplicationController
       end
     else
       if @event_time == 'upcoming'
-        Event.get_upcoming_public_events
+        Event.get_upcoming_public_events_and_user(current_user)
       else
         Event.get_past_public_events
       end

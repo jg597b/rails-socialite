@@ -44,6 +44,20 @@
                           <li><%= link_to "Export RSVP List" ,csv_event_path(id: event.id, format: :csv), style: "width: 120px;"%></li>
                         </ul>
                       </div>
+                  <% else %>
+                      <% if event.event_type == "invite" && (event.rsvp_start..event.rsvp_end).cover?(Time.now)%>
+                          <div class="actions">
+                            <ul>
+                              <% if event.number_of_seats_left <= 0 %>
+                                  <li><%= link_to "Event Full", "#", style: "width: 120px;"%></li>
+                              <% else %>
+                                  <% if invitation = Invitation.find_by(user: @current_user, attended_event: event) %>
+                                      <li><%= link_to "RSVP", edit_invitation_path(invitation), style: "width: 120px;"%></li>
+                                  <% end %>
+                              <% end %>
+                            </ul>
+                          </div>
+                      <%end%>
 
                   <% end %>
                 </div>

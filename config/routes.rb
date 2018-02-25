@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get '/events(/:event_time)' => 'events#index', as: :events_index
   get '/events/:id/invitation_list' => 'events#invitation_list', as: :show_event
   post '/events/:id/invite_user' => 'events#invite_user', as: :invite_event
+  get '/events/:id/to_csv' => 'events#to_csv', as: :csv_event
+
 
   get '/hosts/register' => 'hosts#register', as: :hosts_register
   post '/hosts/register' => 'hosts#register', as: :hosts_register_post

@@ -1,4 +1,5 @@
 class Event < ApplicationRecord
+  require 'csv'
 
   belongs_to :host
   has_many :invitations, class_name: "Invitation", foreign_key: "attended_event_id", dependent: :destroy
@@ -47,6 +48,22 @@ class Event < ApplicationRecord
     User.where(id: attendees_ids)
   end
 
+  def self.to_csv_user_info(event, invited_users)
+    attributes = %w{status first_name last_name email phone_number guests}
+
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+      invited_users.each do |user|
+        invitation = Invitation.find_by(attended_event: event,user: user)
+        csv << [invitation.accepted? ? "yes" : "no", user.first_name, user.last_name, user.email_addr, user.phone, invitation.guest_count]
+      end
+    end
+  end
+
+
+  def invited_users
+    User.where(id: invited_users_listing)
+  end
   def attendees_ids
     accepted_invitations = invitations.where(accepted: true)
     accepted_users = []

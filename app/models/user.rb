@@ -4,6 +4,12 @@ class User < ApplicationRecord
 
   validates :email_addr, :passwd, :first_name, :last_name, :phone, presence: true
   validates :email_addr, uniqueness: true
+  has_many :invitations
+
+
+  def get_invited_in(event)
+    Invitation.create(attended_event: event, user: self)
+  end
 
   def evaluate_registration
     if registration_password != registration_password_repeat

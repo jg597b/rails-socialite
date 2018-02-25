@@ -35,7 +35,13 @@ class Event < ApplicationRecord
 
   # uninvited users
   def users_not_invited
-    User.where.not(id: [host.id] + invited_users_listing)
+    p"invited_users_listing--> #{invited_users_listing}"
+    #if there is no users in the list, show all Users
+    if invited_users_listing.empty?
+      User.all
+    else
+      User.where.not(id:invited_users_listing)
+    end
   end
 
   # users who are invited but have not accepted

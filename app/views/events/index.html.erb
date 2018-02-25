@@ -32,7 +32,16 @@
                     <p><span class="small_title">Details: </span><%= event.description %></p>
                     <% if @account_type == 'host' %>
                         <p><span class="small_title">Type: </span><%= event.event_type %></p>
-                    <% end %>
+                      <% if  event.event_type=='invite' && @event_time == 'upcoming' %>
+                          <div class="actions">
+                            <ul>
+                              <li><%= link_to "Invite" ,show_event_path(id: event.id), style: "width: 40px;"%></li>
+                            </ul>
+                          </div>
+
+                      <% end %>
+
+                  <% end %>
                 </div>
                 <div style="clear:both;"></div>
             </div>

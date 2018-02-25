@@ -10,23 +10,20 @@
 #   http://dev.mysql.com/doc/refman/5.7/en/old-client.html
 #
 default: &default
-  adapter: mysql2
-  encoding: utf8
+  adapter: sqlite3
   pool: 5
-  username: root
-  password:
-  socket: /var/run/mysqld/mysqld.sock
+  timeout: 5000
 
 development:
   <<: *default
-  database: socialite_development
+  database: db/socialite_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: socialite_test
+  database: db/socialite_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -49,6 +46,4 @@ test:
 #
 production:
   <<: *default
-  database: socialite_production
-  username: socialite
-  password: <%= ENV['SOCIALITE_DATABASE_PASSWORD'] %>
+  database: db/socialite_production

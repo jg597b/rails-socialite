@@ -15,4 +15,4 @@ class User < ApplicationRecord
     self.passwd = Digest::SHA256.hexdigest registration_password
   end
 
-end
+end 
